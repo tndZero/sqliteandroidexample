@@ -17,7 +17,7 @@ class DatabaseHandler(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        // Called when the database needs to be upgraded
+        // //Called when the database needs to be upgraded
     }
 
     //Inserting (Creating) data
