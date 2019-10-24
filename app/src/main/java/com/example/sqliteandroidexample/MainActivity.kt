@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 var success: Boolean = false
                 user.firstName = editText_firstName.text.toString()
                 user.lastName = editText_lastName.text.toString()
-                //user.passUser = editText_pass.text.toString()
+                user.passUser = editText_pass.text.toString()
 
                 success = dbHandler!!.addUser(user)
 

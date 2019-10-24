@@ -27,7 +27,7 @@ class DatabaseHandler(context: Context) :
         val values = ContentValues()
         values.put(FIRST_NAME, user.firstName)
         values.put(LAST_NAME, user.lastName)
-        //values.put(USER_PASS, user.passUser)
+        values.put(USER_PASS, user.passUser)
 
 
 
@@ -39,9 +39,9 @@ class DatabaseHandler(context: Context) :
 
     //get all users
     fun getAllUsers(): String {
-        var allUser: String = "";
+        var allUser: String = ""
         val db = readableDatabase
-        val selectALLQuery = "SELECT * FROM $TABLE_NAME"
+        val selectALLQuery = "SELECT * FROM users"
         val cursor = db.rawQuery(selectALLQuery, null)
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -49,9 +49,9 @@ class DatabaseHandler(context: Context) :
                     var id = cursor.getString(cursor.getColumnIndex(ID))
                     var firstName = cursor.getString(cursor.getColumnIndex(FIRST_NAME))
                     var lastName = cursor.getString(cursor.getColumnIndex(LAST_NAME))
-                    //var passUser = cursor.getString(cursor.getColumnIndex(USER_PASS))
+                    var passUser = cursor.getString(cursor.getColumnIndex(USER_PASS))
 
-                    allUser = "$allUser\n$id  :  $firstName     $lastName"
+                    allUser = "$allUser\n$id  :  $firstName     $lastName    $passUser"
                 } while (cursor.moveToNext())
             }
         }
@@ -60,9 +60,25 @@ class DatabaseHandler(context: Context) :
         return allUser
     }
 
+    fun checkUser(userName:String,userPass:String):Boolean {
+        var isUser : Boolean = false
+        val db = readableDatabase
+
+        val cursor = db.rawQuery("SELECT id FROM users WHERE FirstName = '$userName' AND  PassUser = '$userPass'", null)
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst()
+            var id = cursor.getString(cursor.getColumnIndex("id"))
+
+            isUser = true
+        }
+        cursor.close()
+        db.close()
+        return  isUser
+    }
+
     companion object {
         private val DB_NAME = "UsersDB"
-        private val DB_VERSIOM = 1;
+        private val DB_VERSIOM = 1
         private val TABLE_NAME = "users"
         private val ID = "id"
         private val FIRST_NAME = "FirstName"
