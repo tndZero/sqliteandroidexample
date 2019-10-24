@@ -67,7 +67,6 @@ class DatabaseHandler(context: Context) :
         val cursor = db.rawQuery("SELECT id FROM users WHERE FirstName = '$userName' AND  PassUser = '$userPass'", null)
         if (cursor.getCount() > 0){
             cursor.moveToFirst()
-            var id = cursor.getString(cursor.getColumnIndex("id"))
 
             isUser = true
         }
@@ -75,6 +74,21 @@ class DatabaseHandler(context: Context) :
         db.close()
         return  isUser
     }
+    fun userDetail(userName:String):String{
+        var dtUser:String =""
+        var dtUserLastname:String =""
+        var dtUserAr : String = ""
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT FirstName,LastName FROM users WHERE FirstName = '$userName'", null)
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst()
+            dtUser = cursor.getString(cursor.getColumnIndex("FirstName"))
+            dtUserLastname = cursor.getString(cursor.getColumnIndex("LastName"))
+        }
+        dtUserAr = "$dtUser  $dtUserLastname"
+        return  dtUserAr
+    }
+
 
     companion object {
         private val DB_NAME = "UsersDB"

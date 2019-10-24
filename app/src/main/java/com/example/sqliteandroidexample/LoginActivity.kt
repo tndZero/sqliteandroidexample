@@ -23,10 +23,13 @@ class LoginActivity : AppCompatActivity() {
                 success = dbHandler!!.checkUser(TextUserName.text.toString(),TextUserPass.text.toString())
                 if (success){
                     val toast = Toast.makeText(this,"Login Successfully", Toast.LENGTH_LONG).show()
+
+                    val  userName:String = TextUserName.text.toString()
+                    val u = Intent(this,UserDetailActivity::class.java)
+                    u.putExtra("userName",userName)
+                    startActivity(u)
                     TextUserName.text.clear()
                     TextUserPass.text.clear()
-                    val u = Intent(this,UserDetailActivity::class.java)
-                    startActivity(u)
                 }else{
                     val toast = Toast.makeText(this,"Login Not Successfully", Toast.LENGTH_LONG).show()
                 }
